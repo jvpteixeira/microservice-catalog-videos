@@ -15,6 +15,7 @@ class Category extends Model
       'id' => 'string',
       'is_active' => 'bool'
    ];
+   protected $keyType = 'string';
    public $incrementing = false;
 }
 
