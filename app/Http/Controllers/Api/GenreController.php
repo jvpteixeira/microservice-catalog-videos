@@ -5,39 +5,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
-class genreController extends Controller
+class genreController extends BasicCrudController
 {
     private $rules = [
         'name' => 'required|max:255',
         'is_active' => 'boolean'
     ];
 
-    public function index()
+    protected function model()
     {
-        return genre::all();
+        return Genre::class;
     }
 
-    public function store(Request $request)
+    protected function rulesStore()
     {
-        $this->validate($request, $this->rules);
-        return genre::create($request->all());
+        return $this->rules;
     }
 
-    public function show(genre $genre)
+    protected function rulesUpdate()
     {
-        return $genre;
-    }
-
-    public function update(Request $request, genre $genre)
-    {
-        $this->validate($request, $this->rules);
-        $genre->update($request->all());
-        return $genre;
-    }
-
-    public function destroy(genre $genre)
-    {
-        $genre->delete();
-        return response()->noContent();
+        return $this->rules;
     }
 }

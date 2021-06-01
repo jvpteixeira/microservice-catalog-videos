@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\BasicCrudController;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Mockery;
@@ -57,4 +58,55 @@ class BasicCrudControllerTest extends TestCase
             $obj->toArray()
         );
     }
+
+    public function testIfFindOrFailFetchModel(){
+        $category = CategoryStub::create(['name' => 'test_name', 'description' => 'test_description']);
+
+        $reflectionClass = new \ReflectionClass(BasicCrudController::class);
+        $reflectionMethod = $reflectionClass->getMethod('findOrFail');
+        $reflectionMethod->setAccessible(true);
+
+        $result = $reflectionMethod->invokeArgs($this->controllerCategory,[$category->id]);
+        $this->assertInstanceOf(CategoryStub::class,$result);
+
+    }
+
+    public function testShow(){
+        $category = CategoryStub::create(['name'=> 'test_name','description' => 'test_description']);
+        $result = $this->controllerCategory->show($category->id);
+        $this->assertEquals($result->toArray(), CategoryStub::find(1)->toArray());
+    }
+
+    
+    public function testUpdate(){
+        $category = CategoryStub::create(['name'=> 'test_name','description' => 'test_description']);
+        $request = \Mockery::mock(Request::class, [
+            "all" => ['name' => 'test_changed','description' => 'test_description_changed']
+        ]);
+        
+        $result = $this->controllerCategory->update($request,$category->id);
+        $this->assertEquals($result->toArray(), CategoryStub::find(1)->toArray());
+    }
+
+    public function testDestroy(){
+        $category = CategoryStub::create(['name'=> 'test_name','description' => 'test_description']);
+        $response = $this->controllerCategory->destroy($category->id);
+        $this->createTestResponse($response)
+            ->assertStatus(204);
+        $this->assertCount(0,CategoryStub::all());
+  
+    }
+
+    // /*
+    // * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
+    // */
+    // public function testIfFindOrFailThrowExceptionWhenIdInvalid(){
+
+    //     $reflectionClass = new \ReflectionClass(BasicCrudController::class);
+    //     $reflectionMethod = $reflectionClass->getMethod('findOrFail');
+    //     $reflectionMethod->setAccessible(true);
+
+    //     $result = $reflectionMethod->invokeArgs($this->controllerCategory,[0]);
+
+    // }
 }
