@@ -67,6 +67,10 @@ class VideoControllerTest extends TestCase
 
         $request = \Mockery::mock(Request::class);
 
+        $request->shouldReceive('get')
+            ->withAnyArgs()
+            ->andReturnNull();
+
         $hasError = false;
         try{
             $controller->store($request);
@@ -106,6 +110,10 @@ class VideoControllerTest extends TestCase
             ->andThrow(new TestException());
 
         $request = \Mockery::mock(Request::class);
+
+        $request->shouldReceive('get')
+            ->withAnyArgs()
+            ->andReturnNull();
                 
         $hasError = false;
         try{
@@ -127,7 +135,9 @@ class VideoControllerTest extends TestCase
             ->assertJson($this->video->toArray());
     }
 
-    public function testInvalidationRequired(){
+  
+    public function testInvalidationRequired()
+    {
         $data = [
             'title' => '',
             'description' => '',
@@ -137,9 +147,8 @@ class VideoControllerTest extends TestCase
             'categories_id' => '',
             'genres_id' => ''
         ];
-
-        $this->assertInvalidationInStoreAction($data,'required');
-        $this->assertInvalidationInUpdateAction($data,'required');
+        $this->assertInvalidationInStoreAction($data, 'required');
+        $this->assertInvalidationInUpdateAction($data, 'required');
     }
 
     public function testInvalidationCategoriesIdField(){
@@ -170,6 +179,7 @@ class VideoControllerTest extends TestCase
         $data = [
             'genres_id' => 'a'
         ];
+
         $this->assertInvalidationInStoreAction($data,'array');
         $this->assertInvalidationInUpdateAction($data,'array');
 
