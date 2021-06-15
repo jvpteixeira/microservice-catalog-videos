@@ -35,5 +35,36 @@ class UploadFilesUnitTest extends TestCase
 
     }
 
+    public function testDeleteFile()
+    {
+        \Storage::fake();
+        $file = UploadedFile::fake()->create('video.mp4');
+        $this->obj->uploadFile($file);
+
+        $filename = $file->hashName();
+        $this->obj->deleteFile($file->hashName());
+        \Storage::assertMissing("1/{$filename }");
+
+        $filename = $file->hashName();
+        $this->obj->uploadFile($file);
+        $this->obj->deleteFile($file);
+        \Storage::assertMissing("1/{$filename}");
+
+    }
+
+    public function testDeleteFiles()
+    {
+        \Storage::fake();
+        $file1 = UploadedFile::fake()->create('video.mp4');
+        $file2 = UploadedFile::fake()->create('video.mp4');
+
+        $this->obj->uploadFiles([$file1,$file2]);
+
+        $this->obj->deleteFiles([$file1->hashName(), $file2]);
+
+        \Storage::assertMissing("1/{$file1->hashName()}");
+        \Storage::assertMissing("1/{$file2->hashName()}");
+
+    }
 
 }
