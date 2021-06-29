@@ -15,6 +15,7 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
 {
     use TestValidations, TestUploads;
 
+    
     public function testInvalidationVideoField()
     {
         $this->assertInvalidationFile(
@@ -27,7 +28,8 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
     }
 
     public function testStoreWithFiles()
-    {
+    {   
+        UploadedFile::fake()->create("image.jpg");
         \Storage::fake();
         $files = $this->getFiles();
 

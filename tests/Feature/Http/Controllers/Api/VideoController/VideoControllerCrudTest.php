@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\VideoController;
 use App\Models\Genre;
 use App\Models\Category;
 use App\Models\Video;
+use Tests\Exceptions\TestException;
 use Tests\Feature\Http\Controllers\Api\VideoController\BaseVideoControllerTestCase;
 use Tests\Traits\TestSaves;
 use Tests\Traits\TestValidations;
@@ -435,7 +437,6 @@ class VideoControllerCrudTest extends BaseVideoControllerTestCase
                 $value['send_data']['genres_id'][0]
             );
         }
-
     }
 
     protected function routeStore()
