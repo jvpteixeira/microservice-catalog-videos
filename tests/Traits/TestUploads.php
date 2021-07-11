@@ -24,7 +24,8 @@ trait TestUploads
             $response = $this->json($route['method'], $route['route'], [
                 $field => $file
             ]);
-
+            
+            // dd($response);
             $this->assertInvalidationFields($response, [$field], $rule, $ruleParams);
 
             $file = UploadedFile::fake()->create("$field.$extension")->size($maxSize + 1);
@@ -36,12 +37,11 @@ trait TestUploads
         }
     }
 
-    // protected function assertFilesExistsInStorage($model, array $files)
-    // {
-    //     /** @var UploadedFiles $model */
-    //     foreach ($files as $file) 
-    //     {
-    //         \Storage::assertExists($model->relativeFilePath($file->hashName()));
-    //     }
-    // }
+    protected function assertFilesExistsInStorage($model, array $files)
+    {
+        /** @var UploadedFiles $model */
+        foreach ($files as $file) {
+            \Storage::assertExists($model->relativeFilePath($file->hashName()));
+        }
+    }
 }
