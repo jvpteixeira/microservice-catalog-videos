@@ -38,6 +38,20 @@ const routes: MyRouteProps[] = [
         component: CategoryList,
         exact: true
     },
+    {
+        name: 'categories.edit',
+        label: 'Teste aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        path: '/categories/:id/edit/:name',
+        component: CategoryList,
+        exact: true
+    },
+    {
+        name: 'categories.edit',
+        label: 'Teste ae',
+        path: '/categories/:id/edit/:name/xpt/:xpto',
+        component: CategoryList,
+        exact: true
+    },
 ];
 
 export default routes;
