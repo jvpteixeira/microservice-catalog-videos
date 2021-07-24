@@ -16,4 +16,4 @@ yarn-error.log
 .history/
 .devcontainer/
 
-./.docker/dbdatas
+./.docker/dbdata
