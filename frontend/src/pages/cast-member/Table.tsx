@@ -5,9 +5,14 @@ import { useEffect, useState } from 'react';
 import { httpVideo } from '../../utils/http';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
-import categoryHttp from '../../utils/http/category-http';
 
 require('dotenv').config();
+
+const CastMemberTypeMap = {
+    1: 'Diretor',
+    2: 'Ator'
+}
+
 
 const columnsDefinition: MUIDataTableColumn[] = [
     {
@@ -15,11 +20,12 @@ const columnsDefinition: MUIDataTableColumn[] = [
         label: "Nome"
     },
     {
-        name: "is_active",
-        label: "Ativo?",
+        name: "type",
+        label: "Tipo",
         options:{
             customBodyRender(value, tableMeta, updateValue){
-                return value ? <Chip label="Sim" color={"primary"} /> : <Chip label="Não" color="secondary"/>
+                console.log(value)
+                return CastMemberTypeMap[value];
             }
         }
     },
@@ -34,29 +40,24 @@ const columnsDefinition: MUIDataTableColumn[] = [
     }
 ]
 
-interface Category {
-    id: string;
-    name: string;
-}
-
 type Props = {
     
 };
 
 const Table = (props: Props) => {
 
-    const [data, setData] = useState<Category[]>([]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        categoryHttp
-            .list<{data: Category[]}>()
-            .then(({data}) => setData(data.data))
+       httpVideo.get('/categories').then(
+           res => setData(res.data.data)
+       )
     }, [])
 
     
     return (
         <MUIDataTable 
-            title="Listagem de categorias"
+            title="Listagem de membros do elenco"
             columns={columnsDefinition}
             data={data}
         />
