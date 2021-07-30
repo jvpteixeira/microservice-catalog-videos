@@ -20,7 +20,6 @@ export default class HttpResource{
 
     update<T = any>(id, data) : Promise<AxiosResponse<T>>{
         return this.http.put<T>(`${this.resource}/${id}`, data)
-
     }
 
     delete<T = any>(id) : Promise<AxiosResponse<T>>{
