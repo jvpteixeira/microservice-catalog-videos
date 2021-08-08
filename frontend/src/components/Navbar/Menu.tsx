@@ -9,7 +9,9 @@ const listRoutes = [
     'categories.list',
     'categories.create',
     'cast_members.list',
-    'genres.list'
+    'cast_members.create',
+    'genres.list',
+    'genres.create'
 ];
 
 const menuRoutes = routes.filter(route => listRoutes.includes(route.name))

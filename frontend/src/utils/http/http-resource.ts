@@ -3,7 +3,7 @@ import { AxiosInstance, AxiosResponse } from "axios";
 export default class HttpResource{
     
     constructor(protected http: AxiosInstance, protected resource){
-
+        
     }
 
     list<T = any>(): Promise<AxiosResponse<T>> {

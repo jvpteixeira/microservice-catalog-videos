@@ -1,9 +1,10 @@
-import { Box, Button, Checkbox, TextField, Theme } from '@material-ui/core';
+import { Box, Button, Checkbox, TextField, Theme, FormControlLabel, RadioGroup, FormControl, FormLabel, Radio } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'
 import {ButtonProps} from '@material-ui/core/Button';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import categoryHttp from '../../utils/http/category-http';
+import castMemberHttp from '../../utils/http/cast-member-http';
 type Props = {
     
 };
@@ -26,14 +27,19 @@ export const Form = (props: Props) => {
         variant: "outlined"
     };
 
-    const {register, handleSubmit, getValues} = useForm();
+    const {register, handleSubmit, getValues, setValue} = useForm();
+
+    useEffect(() => {
+        register("type")
+    }, [register])
 
     function onSubmit(formData, event){
         formData.is_active = checkBox;
-        categoryHttp
+        castMemberHttp
             .create(formData)
             .then((response) => console.log(response))
     }
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,23 +49,19 @@ export const Form = (props: Props) => {
                 variant={"outlined"}
                 {...register("name")}
             />
-            <TextField
-                label="Descrição"
-                multiline
-                rows="4"
-                fullWidth
-                variant={"outlined"}
-                margin={"normal"}
-                {...register("description")}
-            />
-            
-            <Checkbox
-                {...register("is_active")}
-                color={"primary"}
-                onClick={() => setCheckBox(!checkBox)}
-                defaultChecked
-            />
-            Ativo?
+            <FormControl margin={"normal"}>
+                <FormLabel component="legend">Tipo</FormLabel>
+                <RadioGroup 
+                    name="type"
+                    onChange={(e) =>{
+                        setValue('type', parseInt(e.target.value))
+                    }}
+                >
+                    <FormControlLabel value = "1" control={<Radio color={"primary"}/>} label="Director"/>
+                    <FormControlLabel value = "2" control={<Radio color={"primary"}/>} label="Ator"/>                                    
+                </RadioGroup>
+            </FormControl>
+
             
             <Box dir={"rtl"}>
                 <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)}>Salvar</Button>

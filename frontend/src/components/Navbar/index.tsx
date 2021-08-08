@@ -1,11 +1,11 @@
 import { AppBar, Button, makeStyles, Toolbar, Typography, Theme} from '@material-ui/core';
-import {Menu} from './Menu'
+import {Menu} from './Menu';
 import * as React from 'react';
 import logo from '../../static/img/logo.png';
 
 const useStyles = makeStyles( (theme: Theme) => ({
     toolbar: {
-        backgroundColor: '#000000'
+        // backgroundColor: '#000000'
     },
     title: {
         flexGrow: 1,
