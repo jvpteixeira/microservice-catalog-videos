@@ -5,7 +5,7 @@ import logo from '../../static/img/logo.png';
 
 const useStyles = makeStyles( (theme: Theme) => ({
     toolbar: {
-        // backgroundColor: '#000000'
+        backgroundColor: '#000000'
     },
     title: {
         flexGrow: 1,
