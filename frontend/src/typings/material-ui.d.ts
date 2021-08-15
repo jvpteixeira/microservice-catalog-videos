@@ -1,4 +1,5 @@
 import {ComponentNameToClassKey} from '@material-ui/core/styles/overrides'
+import { PaletteOptions, Palette} from "@material-ui/core/styles/createPalette";
 
 declare module '@material-ui/core/styles/overrides'{
     interface ComponentNameToClassKey {
@@ -11,5 +12,18 @@ declare module '@material-ui/core/styles/overrides'{
         MUIDataTableToolbarSelect: any;
         MUIDataTableBodyRow: any;
         MUIDataTablePagination: any;
+    }
+}
+
+declare module '@material-ui/core/styles/createPalette' {
+    import {PaletteOptions} from '@material-ui/core/styles';
+    
+
+    interface Palette {
+        success: PaletteColor
+    }
+
+    interface PaletteOptions {
+        success?: PaletteOptions
     }
 }
